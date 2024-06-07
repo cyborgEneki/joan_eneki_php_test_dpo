@@ -1,22 +1,45 @@
 <?php
 
-class Instrument
+class Person
 {
-    public $type;
-    public $material;
+    private $name;
+    private $age;
 
-    public function __construct($type, $material)
+    public function __construct($name, $age)
     {
-        $this->type = $type;
-        $this->material = $material;
+        $this->setName($name);
+        $this->setAge($age);
     }
 
-    public function displayDetails()
+    public function getName()
     {
-        echo "This instrument is a " . $this->type . " made of " . $this->material . "." . PHP_EOL;
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    public function setAge($age)
+    {
+        if (!is_int($age) || $age < 0) {
+            throw new Exception("Age must be a positive number.");
+        }
+        $this->age = $age;
+    }
+
+    public function displayPersonInfo()
+    {
+        echo "Name: " . $this->getName() . "\n";
+        echo "Age: " . $this->getAge() . "\n";
     }
 }
 
-$myInstrument = new Instrument("ukelele", "wood");
-
-$myInstrument->displayDetails();
+$person = new Person("Jay", 49);
+$person->displayPersonInfo();
