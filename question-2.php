@@ -13,10 +13,10 @@ class Instrument
 
     public function displayDetails()
     {
-        echo ("This instrument is a " . $this->type . " made of " . $this->material . ". \n");
+        echo "This instrument is a " . $this->type . " made of " . $this->material . "." . PHP_EOL;
     }
 }
 
-$myInstrument = new Instrument("violin", "wood");
+$myInstrument = new Instrument("ukelele", "wood");
 
 $myInstrument->displayDetails();

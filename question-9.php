@@ -24,8 +24,7 @@ $filename = 'example-file.txt';
 $result = countWordsInFile($filename);
 
 if (is_numeric($result)) {
-    echo ("Total word count: $result");
-    echo ("\n");
+    echo "Total word count: $result" . PHP_EOL;
 } else {
-    echo ("Error: $result");
+    echo "Error: $result";
 }

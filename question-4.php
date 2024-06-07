@@ -1,20 +1,24 @@
 <?php
-$servername = "joaneneki-dpo-test";
-$dbname = "test-db";
-$username = "dpo-admin";
-$password = "QA3Z3ajJb77wW2r";
+$serverName = "joaneneki-dpo-test.database.windows.net";
+$databaseName = "test-db";
+$uid = "dpo-admin";
+$pwd = "QA3Z3ajJb77wW2r";
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn = new PDO("sqlsrv:server = $serverName; Database = $databaseName;", $uid, $pwd);
 
-    // Set PDO attributes
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT customer_id, name, email FROM customers";
+    $stmt = $conn->query($sql);
 
-    // Execute queries and perform database operations
-    // ...
+    $customers = $stmt->fetchAll();
 
-    // Close the connection
-    $conn = null;
+    foreach ($customers as $customer) {
+        echo "Customer ID: " . $customer['customer_id'] . "\n";
+        echo "Name: " . $customer['name'] . "\n";
+        echo "Email: " . $customer['email'] . "\n";
+        echo "--------------------------\n";
+    }
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    echo "<h1>Caught PDO exception:</h1>";
+    echo $e->getMessage() . PHP_EOL;
 }

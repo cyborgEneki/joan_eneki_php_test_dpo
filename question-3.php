@@ -4,7 +4,7 @@ class CustomException extends Exception
 {
     public function errorMessage()
     {
-        $errorMsg = "Error on line {$this->getLine()} in {$this->getFile()}: {$this->getMessage()} \n";
+        $errorMsg = "Error on line {$this->getLine()} in {$this->getFile()}: {$this->getMessage()}" . PHP_EOL;
         return $errorMsg;
     }
 }
@@ -16,7 +16,7 @@ try {
         throw new CustomException("The number must be greater than zero.");
     }
     
-    echo ("The number is valid.");
+    echo "The number is valid."  . PHP_EOL;
 } catch (CustomException $e) {
     echo $e->errorMessage();
 }
