@@ -1,4 +1,4 @@
-# Project Technology Summary
+# Technology Summary
 
 This project utilizes the following technologies:
 
