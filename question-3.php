@@ -15,7 +15,7 @@ try {
     if ($number <= 0) {
         throw new CustomException("The number must be greater than zero.");
     }
-    
+
     echo "The number is valid."  . PHP_EOL;
 } catch (CustomException $e) {
     echo $e->errorMessage();
