@@ -1,4 +1,7 @@
 <?php
+// In a real setup, environment variables would not be in plain text.
+// They would be loaded from a .env file with the help of a Composer package like vlucas/phpdotenv.
+
 $serverName = "joaneneki-dpo-test.database.windows.net";
 $databaseName = "test-db";
 $uid = "dpo-admin";

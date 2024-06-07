@@ -1,4 +1,18 @@
 <?php
+// *** SECURITY MEASURE 1: Environment variables should not be passed to the script in plain text. ***
+
+// In a real setup, they would be loaded from a .env file 
+// This would be done with the help of a Composer package like vlucas/phpdotenv as follows:
+
+// require 'vendor/autoload.php'; 
+// $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+// $dotenv->load();
+
+// $serverName = getenv('DB_SERVER_NAME');
+// $databaseName = getenv('DB_DATABASE_NAME');
+// $uid = getenv('DB_USERNAME');
+// $pwd = getenv('DB_PASSWORD');
+
 $serverName = "joaneneki-dpo-test.database.windows.net";
 $databaseName = "test-db";
 $uid = "dpo-admin";
@@ -25,9 +39,16 @@ try {
             c.customer_id, c.name, c.email
     ";
 
-    $stmt = $conn->query($sql);
+    // *** SECURITY MEASURE 2: Use of prepared statements to prevent SQL injection. ***
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // *** SECURITY MEASURE 3: Sanitize output to prevent XSS attacks. ***
+    array_walk_recursive($results, function (&$item) {
+        $item = htmlspecialchars($item, ENT_QUOTES, 'UTF-8');
+    });
 
     $json = json_encode($results);
 
@@ -39,6 +60,8 @@ try {
 
     echo $json . PHP_EOL;
 } catch (PDOException $e) {
-    echo "<h1>Caught PDO exception:</h1>";
-    echo $e->getMessage() . PHP_EOL;
+    error_log($e->getMessage());
+
+    // *** SECURITY MEASURE 4: Display a generic error message to the user. While logging is necessary, detailed error messages must not displayed to the end-user. ***
+    echo "An error occurred while processing your request. Please try again later." . PHP_EOL;
 }
