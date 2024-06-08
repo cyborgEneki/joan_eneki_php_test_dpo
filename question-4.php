@@ -1,14 +1,16 @@
 <?php
-// In a real setup, the environment variables would not be in plain text.
-// Instead they would be loaded from a .env file with the help of a Composer package like vlucas/phpdotenv.
+require 'vendor/autoload.php';
 
-$serverName = "joaneneki-dpo-test.database.windows.net";
-$databaseName = "test-db";
-$uid = "dpo-admin";
-$pwd = "QA3Z3ajJb77wW2r";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$serverName = $_ENV['DB_SERVER_NAME'];
+$databaseName = $_ENV['DB_DATABASE_NAME'];
+$userName = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
 
 try {
-    $conn = new PDO("sqlsrv:server = $serverName; Database = $databaseName;", $uid, $pwd);
+    $conn = new PDO("sqlsrv:server = $serverName; Database = $databaseName;", $userName, $password);
 
     $sql = "SELECT customer_id, name, email FROM customers";
     $stmt = $conn->query($sql);

@@ -1,25 +1,17 @@
 <?php
+require 'vendor/autoload.php'; 
+
 // *** SECURITY MEASURE 1: Environment variables should not be passed to the script in plain text. ***
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-// In a real setup, they would be loaded from a .env file 
-// This would be done with the help of a Composer package like vlucas/phpdotenv as follows:
-
-// require 'vendor/autoload.php'; 
-// $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-// $dotenv->load();
-
-// $serverName = getenv('DB_SERVER_NAME');
-// $databaseName = getenv('DB_DATABASE_NAME');
-// $uid = getenv('DB_USERNAME');
-// $pwd = getenv('DB_PASSWORD');
-
-$serverName = "joaneneki-dpo-test.database.windows.net";
-$databaseName = "test-db";
-$uid = "dpo-admin";
-$pwd = "QA3Z3ajJb77wW2r";
+$serverName = $_ENV['DB_SERVER_NAME'];
+$databaseName = $_ENV['DB_DATABASE_NAME'];
+$userName = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
 
 try {
-    $conn = new PDO("sqlsrv:server = $serverName; Database = $databaseName;", $uid, $pwd);
+    $conn = new PDO("sqlsrv:server = $serverName; Database = $databaseName;", $userName, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "
