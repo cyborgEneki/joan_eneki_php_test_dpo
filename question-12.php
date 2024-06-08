@@ -15,7 +15,7 @@ $queueName = 'email_queue';
 $connection = new AMQPStreamConnection($host, $port, $user, $pwd);
 $channel = $connection->channel();
 
-$channel->queue_declare($queueName, true, false, false, false);
+$channel->queue_declare($queueName, false, false, false, false);
 
 $msg = new AMQPMessage('Hello World!');
 $channel->basic_publish($msg, '', 'hello');
@@ -43,7 +43,7 @@ $queueName = 'email_queue';
 $connection = new AMQPStreamConnectionWorker($host, $port, $user, $pwd);
 $channel = $connection->channel();
 
-$channel->queue_declare($queueName, true, false, false, false);
+$channel->queue_declare($queueName, false, false, false, false);
 
 echo "Waiting for messages.\n";
 
