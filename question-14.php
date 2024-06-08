@@ -7,14 +7,14 @@ $authorizationEndpoint = 'https://example.com/oauth/authorize';
 $tokenEndpoint = 'https://example.com/oauth/token';
 $apiEndpoint = 'https://example.com/api';
 
-// Redirect the user for authorization if the auth_code is not present.
+// Redirect the user for authorization if the auth_code is not present
 if (!isset($_GET['auth_code'])) {
     $authorizationUrl = $authorizationEndpoint . '?client_id=' . $clientId . '&redirect_uri=' . urlencode($redirectUri) . '&response_type=code';
     header('Location: ' . $authorizationUrl);
     exit;
 }
 
-// Exchange the authorization code for an access token.
+// Retrieve access token
 $code = $_GET['auth_code'];
 $params = [
     'grant_type' => 'authorization_code',
@@ -44,7 +44,7 @@ if (isset($accessTokenData['error'])) {
 
 $accessToken = $accessTokenData['access_token'];
 
-// Use the access token to make an authenticated request to the API.
+// Use the access token to make an authenticated request to the API
 $apiRequest = curl_init($apiEndpoint);
 curl_setopt($apiRequest, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken]);
 curl_setopt($apiRequest, CURLOPT_RETURNTRANSFER, true);
@@ -58,5 +58,5 @@ if (!$apiResponse) {
 
 $data = json_decode($apiResponse, true);
 
-// Display the retrieved data.
+// Display the retrieved data
 print_r($data);
